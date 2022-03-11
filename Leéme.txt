@@ -7,12 +7,11 @@ Si observamos el contenido de la carpeta encontramos tres archivos:
 2-nombres-2015.csv
 3-scrapyBOE.py
 
-El primero es un dataset de libre acceso, que contiene todos los nombres de personas físicas censados en españa en 2015, proporcionado por el gobierno de españa.
+El primero archivo es Leéme que se encuentra leyendo ahora mismo.
+
+El segundo es un dataset de libre acceso, que contiene todos los nombres de personas físicas censados en españa en 2015, proporcionado por el gobierno de españa.
 Dicho dataset se utiliza para comprobar que efectivamente los nombres recogidos mediante scraping despues de la palabra clave "FIRMADO" son nombres autenticos.
 Y evitar que se scrapee por ejemplo: "La Ministra de Cultura" y se guarde como si fuera un nombre real de una persona física.
-
-El segundo archivo es Leéme que se encuentra leyendo ahora mismo.
-
 
 Y el tercer archivo es el script que realiza scraping mediante la API "Scrapy"
 
