@@ -3,8 +3,8 @@ El scraping se realiza mediante la API "Scrapy".
 Para lanzar el script hay que ejecutar el comando en el "cmd" y ubicándolo en la carpeta donde se encuentra el script "scrapy.BOE.py": "scrapy runspider scrapyBOE.py -o nombre.json"
 
 Si observamos el contenido de la carpeta encontramos tres archivos:
-1-nombres-2015.csv
-2-Leéme.txt
+1--Leéme.txt
+2-nombres-2015.csv
 3-scrapyBOE.py
 
 El primero es un dataset de libre acceso, que contiene todos los nombres de personas físicas censados en españa en 2015, proporcionado por el gobierno de españa.
