@@ -3,16 +3,15 @@ El scraping se realiza mediante la API "Scrapy".
 Para lanzar el script hay que ejecutar el comando en el "cmd" y ubicándolo en la carpeta donde se encuentra el script "scrapy.BOE.py": "scrapy runspider scrapyBOE.py -o nombre.json"
 
 Si observamos el contenido de la carpeta encontramos tres archivos:
-1-nombres-2015.csv
-2-Leéme.txt
+1--Leéme.txt
+2-nombres-2015.csv
 3-scrapyBOE.py
 
-El primero es un dataset de libre acceso, que contiene todos los nombres de personas físicas censados en españa en 2015, proporcionado por el gobierno de españa.
+El primero archivo es Leéme que se encuentra leyendo ahora mismo.
+
+El segundo es un dataset de libre acceso, que contiene todos los nombres de personas físicas censados en españa en 2015, proporcionado por el gobierno de españa.
 Dicho dataset se utiliza para comprobar que efectivamente los nombres recogidos mediante scraping despues de la palabra clave "FIRMADO" son nombres autenticos.
 Y evitar que se scrapee por ejemplo: "La Ministra de Cultura" y se guarde como si fuera un nombre real de una persona física.
-
-El segundo archivo es Leéme que se encuentra leyendo ahora mismo.
-
 
 Y el tercer archivo es el script que realiza scraping mediante la API "Scrapy"
 
@@ -26,6 +25,3 @@ Yendo directamente a buscar a la fila por donde empieza la palabra, y evitando a
 
 Para obtener los nombres, gracias a la API "Scrapy" se puede buscar si existe un "XPATH" que empiece por "firma_" y obtener asi todo el texto que se encuentra en dicho "XPATH",
 despues para asegurarse que que dicho texto es perteneciente a un nombre real de una persona fisica, se comprueba con la el dataset y si existe en el dataset quiere decir que el nombre es real y debe ser scrapeado.
-
-
-
