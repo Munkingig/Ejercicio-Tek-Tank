@@ -22,6 +22,7 @@ Por lo que en la primera fila estan todas las provincias que empiezan por la let
 El script obtiene todo el texto que se encuentra en "Url" y comprueba palabra por palabra por que letra empieza, si empieza por una de las letras en las que empizan las provincias españolas.
 Se busca directamente fila que pertenece a dicha letra en la matriz de provincias españolas.
 Yendo directamente a buscar a la fila por donde empieza la palabra, y evitando asi una busqueda por toda la matriz de provincias.
+También se evita guardar provincias duplicadas.
 
 Para obtener los nombres, gracias a la API "Scrapy" se puede buscar si existe un "XPATH" que empiece por "firma_" y obtener asi todo el texto que se encuentra en dicho "XPATH",
 despues para asegurarse que que dicho texto es perteneciente a un nombre real de una persona fisica, se comprueba con la el dataset y si existe en el dataset quiere decir que el nombre es real y debe ser scrapeado.
