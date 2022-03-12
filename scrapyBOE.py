@@ -8,6 +8,7 @@ import random
 from scrapy.selector import Selector
 import sys
 import csv
+import re
 
 localidades = [['Álava','Albacete','Alicante','Almería','Andalucía','Aragon','Asturias','Ávila'],
                ['Badajoz','Barcelona','Burgos'],
@@ -27,9 +28,6 @@ localidades = [['Álava','Albacete','Alicante','Almería','Andalucía','Aragon',
                ['Valencia','Valladolid','Vizcaya'],
                ['Zamora','Zaragoza']]
 
-
-#anadir = []
-
 class Datos(Item):
     Id = Field()
     Descripcion = Field()
@@ -46,8 +44,6 @@ class BOESpider(CrawlSpider):
 
     allowed_domains = ["boe.es"]
     start_urls = ["https://www.boe.es/diario_boe/ultimo.php"]
-    #start_urls = ["https://www.boe.es/diario_boe/txt.php?id=BOE-B-2022-7320"]
-    #start_urls = ["https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-3292"]
 
     download_delay = 1
 
@@ -65,6 +61,7 @@ class BOESpider(CrawlSpider):
         sel = Selector(response)
         item = ItemLoader(Datos(), sel)
         locali = []
+        fechas = []
         item.add_xpath('Id', '//div[@class="metadatos"]/dl/dd[4]/text()') #Sacar Id
         url = response.url #Se obtiene la url actual.
         item.add_value("Url", url)
@@ -99,6 +96,10 @@ class BOESpider(CrawlSpider):
                     numero = posicion(palabra)
                     palabra = limpiar(palabra)
                     locali = buscar(numero, palabra, locali)
+                    if(fecha_valida(texto)):
+                        print('fecha valida---------------------------------------------------------------------------')
+                        print(palabra)
+                        #item.add_value("Fechas", palabra) #Añadir Nombres
 
         try:
             subtitles = response.xpath('//div[@id="textoxslt"]/dl/dd/dl/dt')#Sub-Titulo
@@ -112,6 +113,10 @@ class BOESpider(CrawlSpider):
                     numero = posicion(palabra)
                     palabra = limpiar(palabra)
                     locali = buscar(numero, palabra, locali)
+                    if(fecha_valida(texto)):
+                        print('fecha valida---------------------------------------------------------------------------')
+                        print(palabra)
+                        #item.add_value("Fechas", palabra) #Añadir Nombres
 
         try:
             coment = response.xpath('//div[@id="textoxslt"]/dl/dd/dl/dd')#Comentarios
@@ -125,6 +130,10 @@ class BOESpider(CrawlSpider):
                     numero = posicion(palabra)
                     palabra = limpiar(palabra)
                     locali = buscar(numero, palabra, locali)
+                    if(fecha_valida(texto)):
+                        print('fecha valida---------------------------------------------------------------------------')
+                        print(palabra)
+                        #item.add_value("Fechas", palabra) #Añadir Nombres
 
         try:
             parrafos = response.xpath('//div[@id="textoxslt"]/p')#Parrafos
@@ -138,7 +147,10 @@ class BOESpider(CrawlSpider):
                     numero = posicion(palabra)
                     palabra = limpiar(palabra)
                     locali = buscar(numero, palabra, locali)
-    
+                    if(fecha_valida(texto)):
+                        print('fecha valida---------------------------------------------------------------------------')
+                        print(palabra)
+                        #item.add_value("Fechas", palabra) #Añadir Nombres
 
         item.add_value("Localizaciones", locali) #Añadir Nombres
         yield item.load_item()
@@ -215,3 +227,37 @@ def anadir(locali, palabra):
             locali.append(palabra)
 
     return locali
+
+
+def fecha_valida(cadena):
+    #buscar_fecha(cadena)
+    patron = '^(19[0-9]{2}|20[0-9]{2})/(0\d|1[0-2])/(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001/01/01' == True
+    patron1 = '^([0-3]{1}[0-9]{1})( de enero de | de febrero de | de marzo de | de abril de | de mayo de | de junio de | de julio de | de agosto de | de septiembre de | de octubre de | de noviembre de | de diciembre de )(19[0-9]{2}|20[0-9]{2})$'#'1 de marzo de 2011' == True
+    patron2 = '^(19[0-9]{2}|20[0-9]{2})-(0\d|1[0-2])-(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001-01-01' == True
+    print('patron')
+    boleano = bool(re.search(patron, cadena))
+    search = re.search(patron, cadena)
+    print(search)
+    print(str(boleano))
+    print('patron1')
+    boleano1 = bool(re.search(patron1, cadena))
+    search = re.search(patron1, cadena)
+    print(search)
+    print(boleano1)
+    print('patron2')
+    boleano2 = bool(re.search(patron2, cadena))
+    search = re.search(patron2, cadena)
+    print(search)
+    print(boleano2)
+    #print(bool(re.search(patron2, cadena))
+
+    if(bool(re.search(patron, cadena))):
+        return True
+    elif(bool(re.search(patron1, cadena))):
+        return True
+    elif(bool(re.search(patron2, cadena))):
+        return True
+    else:
+        return False
+
+#def buscar_fecha(cadena):
