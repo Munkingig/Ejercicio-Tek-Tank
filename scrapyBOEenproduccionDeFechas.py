@@ -232,51 +232,65 @@ def anadir(locali, palabra):
 
 
 def fecha_valida(cadena):
-    palabra = "magica"
-    frase = "En esta cadena se encuentra 2001/01/01 una palabra magica el dia 5 de mayo de 1989 nacio un Heroe, alabado sea."
+    frase = "En esta cadena se encuentra 39/2015 2001/01/01 una palabra magica el dia 5 de mayo de 1989 nacio un Heroe, alabado sea."
 
     #antpatron = r'\s\d+\D+\d+\s|\D' # 1 de mayo de 1989
     antpatron = r'\s\d+\D+\d+\s' # 1 de mayo de 1989
     antpatron1 = r'\s\d+\D+\d+\D' # 1 de mayo de 1989
-    antpatron2 = r'\d+\D+\d+' #39/2015 | 39-2015
+    antpatron2 = r'\s\d+\D+\d+\s' #39/2015 | 39-2015
 
     patron = '^(([0-3]{0}|([0-3]{1}))[0-9])( de enero de | de febrero de | de marzo de | de abril de | de mayo de | de junio de | de julio de | de agosto de | de septiembre de | de octubre de | de noviembre de | de diciembre de )(19[0-9]{2}|20[0-9]{2})$'#'1 de marzo de 2011' == True
-    patron1 = '^(([0-9]{0}|[0-9]{1})[0-9]{1}(/ | -)(19[0-9]{2}|20[0-9]{2}))$'#39/2015 | 39-2015
+    patron1 = '^(([0-9]{0}|[0-9]{1})[0-9]{1}\D+(19[0-9]{2}|20[0-9]{2}))$'#39/2015 | 39-2015
 
     #patron2 = '^(19[0-9]{2}|20[0-9]{2})/(0\d|1[0-2])/(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001/01/01' == True
     #patron3 = '^(19[0-9]{2}|20[0-9]{2})-(0\d|1[0-2])-(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001-01-01' == True
     #antpatron = r'\d+\D+\d+\D+\d+' #1989/01/01 | 1989-01-01
 
 
-    #Se observa si existe antpatron en la frase
+    contador = len(frase)
+    continuar = True
+    nuevafrase = frase;
+    i=0
+    n=3
 
-    if(re.search(antpatron,frase) is not None):
-        inter = re.search(antpatron,frase)
-        inter = inter.span()
-        print('el intervalo antpatron: ')
-        print(inter)
-        print(frase[inter[0]+1:inter[1]-1])
-    if(re.search(antpatron1,frase) is not None):
-        inter = re.search(antpatron1,frase)
-        inter = inter.span()
-        print('el intervalo antpatron1: ')
-        print(inter)
-        print(frase[inter[0]+1:inter[1]])
-    if(re.search(antpatron2,frase) is not None):
-        inter = re.search(antpatron2,frase)
-        inter = inter.span()
-        print('el intervalo antpatron2: ')
-        print(inter)
-        print(frase[inter[0]:inter[1]])
+    while i < n:
+        i = i + 1
+        if(re.search(antpatron,nuevafrase) is not None):
+            inter = re.search(antpatron,nuevafrase)
+            inter = inter.span()
+            if(bool(re.search(patron,nuevafrase[inter[0]+1:inter[1]-1])) == False):
+                print('patronimportante por lo tanto ha de guardarse')
+                #aqui vendra instruccion para Guardar Fecha
+                nuevafrase = nuevafrase[inter[1]:]
+                print('nueva frase1: ' + nuevafrase)
+                #comprobar si la ultima posicion es la ultima posicion es igual a contador
+                if(inter[1]==contador):
+                    print('final')
 
+        if(re.search(antpatron1,nuevafrase) is not None):
+            inter = re.search(antpatron1,nuevafrase)
+            inter = inter.span()
+           # print(nuevafrase[inter[0]+1:inter[1]])
+            if(bool(re.search(patron,nuevafrase[inter[0]+1:inter[1]])) == False):
+                print('patronimportante2 por lo tanto ha de guardarse')
+                #aqui vendra instruccion para Guardar Fecha
+                nuevafrase = nuevafrase[inter[1]:]
+                print('nueva frase2: ' + nuevafrase)
+                #comprobar si la ultima posicion es la ultima posicion es igual a contador
+                if(inter[1]==contador):
+                    print('final2')
 
-    cadena = "2001/01/01 queso"
-
-    if(bool(re.search(patron, cadena))):
-        return True
-    elif(bool(re.search(patron1, cadena))):
-        return True
-    #elif(bool(re.search(patron2, cadena))):
-    #    return True
-    else:
-        return False
+        if(re.search(antpatron2,nuevafrase) is not None):
+            inter = re.search(antpatron2,nuevafrase)
+            inter = inter.span()
+            print(nuevafrase[inter[0]+1:inter[1]-1])
+            if(bool(re.search(patron1,nuevafrase[inter[0]+1:inter[1]-1]))):
+                print('patronimportante3 por lo tanto ha de guardarse ')
+                #aqui vendra instruccion para Guardar Fecha
+                nuevafrase = nuevafrase[inter[1]:]
+                print('nueva frase3: ' + nuevafrase)
+                #comprobar si la ultima posicion es la ultima posicion es igual a contador
+                if(inter[1]==contador):
+                    print('final2')    
+        
+    print('sali del bucle')
