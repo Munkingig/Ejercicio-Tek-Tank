@@ -57,7 +57,9 @@ class BOESpider(CrawlSpider):
     
 
     def parse(self, response):
-        encontrado = False
+        prueba='oki'
+        fecha_valida(prueba)
+        '''encontrado = False
         sel = Selector(response)
         item = ItemLoader(Datos(), sel)
         locali = []
@@ -153,7 +155,7 @@ class BOESpider(CrawlSpider):
                         #item.add_value("Fechas", palabra) #Añadir Nombres
 
         item.add_value("Localizaciones", locali) #Añadir Nombres
-        yield item.load_item()
+        yield item.load_item()'''
 
 
 
@@ -230,34 +232,43 @@ def anadir(locali, palabra):
 
 
 def fecha_valida(cadena):
-    #buscar_fecha(cadena)
-    patron = '^(19[0-9]{2}|20[0-9]{2})/(0\d|1[0-2])/(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001/01/01' == True
-    patron1 = '^([0-3]{1}[0-9]{1})( de enero de | de febrero de | de marzo de | de abril de | de mayo de | de junio de | de julio de | de agosto de | de septiembre de | de octubre de | de noviembre de | de diciembre de )(19[0-9]{2}|20[0-9]{2})$'#'1 de marzo de 2011' == True
-    patron2 = '^(19[0-9]{2}|20[0-9]{2})-(0\d|1[0-2])-(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001-01-01' == True
-    print('patron')
-    boleano = bool(re.search(patron, cadena))
-    search = re.search(patron, cadena)
-    print(search)
-    print(str(boleano))
-    print('patron1')
-    boleano1 = bool(re.search(patron1, cadena))
-    search = re.search(patron1, cadena)
-    print(search)
-    print(boleano1)
-    print('patron2')
-    boleano2 = bool(re.search(patron2, cadena))
-    search = re.search(patron2, cadena)
-    print(search)
-    print(boleano2)
-    #print(bool(re.search(patron2, cadena))
+    palabra = "magica"
+    frase = "En esta cadena se encuentra 2001/01/01 una palabra magica el dia 5 de mayo de 1989 nacio un Heroe, alabado sea."
+
+    antpatron = r'\s\d+\D+\d+' # 1 de mayo de 1989
+    antpatron1 = r'\d+\D+\d+' #39/2015 | 39-2015
+
+    patron = '^(([0-3]{0}|([0-3]{1}))[0-9])( de enero de | de febrero de | de marzo de | de abril de | de mayo de | de junio de | de julio de | de agosto de | de septiembre de | de octubre de | de noviembre de | de diciembre de )(19[0-9]{2}|20[0-9]{2})$'#'1 de marzo de 2011' == True
+    patron1 = '^(([0-9]{0}|[0-9]{1})[0-9]{1}(/ | -)(19[0-9]{2}|20[0-9]{2}))$'#39/2015 | 39-2015
+
+    #patron2 = '^(19[0-9]{2}|20[0-9]{2})/(0\d|1[0-2])/(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001/01/01' == True
+    #patron3 = '^(19[0-9]{2}|20[0-9]{2})-(0\d|1[0-2])-(0\d|1[0-9]|2[0-9]|3[0-1])$'#'2001-01-01' == True
+    #antpatron = r'\d+\D+\d+\D+\d+' #1989/01/01 | 1989-01-01
+
+
+    #Se observa si existe antpatron en la frase
+
+    if(re.search(antpatron,frase) is not None):
+        inter = re.search(antpatron,frase)
+        inter = inter.span()
+        print('el intervalo esplus: ')
+        print(inter)
+        print(frase[inter[0]:inter[1]])
+    #if(re.search(antpatron1,frase) is not None):
+        #inter = re.search(antpatron1,frase)
+        #inter = inter.span()
+        #print('el intervalo es: ')
+        #print(inter)
+        #print(frase[inter[0]:inter[1]])
+
+
+    cadena = "2001/01/01 queso"
 
     if(bool(re.search(patron, cadena))):
         return True
     elif(bool(re.search(patron1, cadena))):
         return True
-    elif(bool(re.search(patron2, cadena))):
-        return True
+    #elif(bool(re.search(patron2, cadena))):
+    #    return True
     else:
         return False
-
-#def buscar_fecha(cadena):
